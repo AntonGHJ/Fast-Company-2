@@ -47,7 +47,7 @@ User.propTypes = {
     _id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
     onDelete: PropTypes.func.isRequired,
-    bookmark: PropTypes.func.isRequired,
+    bookmark: PropTypes.func,
     qualities: PropTypes.array.isRequired,
     profession: PropTypes.string.isRequired,
     completedMeetings: PropTypes.number.isRequired,

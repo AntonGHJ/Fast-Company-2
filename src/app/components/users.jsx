@@ -8,65 +8,53 @@ import GroupList from "./groupList";
 import api from "../api";
 import SearchStatus from './searchStatus'
 
-
 const Users = ({ users, ...rest }) => {
-    
-    const pageSize = 2;
+       
     const [currentPage, setCurrentPage] = useState(1);
-    const[professions, setProfessions]=useState(api.professions.fetchAll())
+    const [professions, setProfessions]=useState([])
     const [selectedProf, setSelectedProf]=useState()
     
-    useEffect(() => {
-        console.log('запрос отправлен')
+    const pageSize = 2;
+
+    useEffect(() => {       
        api.professions.fetchAll().then((data)=>setProfessions(data))                
     }, [])
-    console.log(professions)
-    //
-    
+   
     useEffect(()=>{
         setCurrentPage(1)
-    }, [selectedProf])
+    }, [selectedProf])    
 
-    const handleProfessionSelect = (item) =>{
-        console.log(item)
+    const handleProfessionSelect = (item) =>{      
         setSelectedProf(item)        
     }
 
     const handlePageChange = (pageIndex) => {
         setCurrentPage(pageIndex);
     };
-    const filteredUsers = selectedProf
-        ? users.filter(
-              (user) =>
-                  JSON.stringify(user.profession)===JSON.stringify(selectedProf)
-          ): users;
-    /*const filteredUsers=selectedProf? 
-    users.filter((user)=>user.profession===selectedProf):users*/
+    const filteredUsers = selectedProf? users.filter(
+        (user) => JSON.stringify(user.profession)===JSON.stringify(selectedProf)
+            ): users;
+    
     const count = filteredUsers.length;
     const userCrop = paginate(filteredUsers, currentPage, pageSize);
     const clearFilter = () =>{setSelectedProf()}
 
-    return (
-        
+    return (        
         <div className="d-flex">
      
         {professions&& (
-        <div className="d-flex flex-column flex-shrink-0 p-3">
-   
+        <div className="d-flex flex-column flex-shrink-0 p-3">   
             <GroupList 
             selectedItem={selectedProf}
-            items = {professions} 
-            
+            items = {professions}             
             onItemSelect = {handleProfessionSelect}
             />
-            <button className="btn btn-secondary mt-2" onClick={clearFilter}>Очистить</button>
-       
+            <button className="btn btn-secondary mt-2" onClick={clearFilter}>Очистить</button>       
         </div>
     )}
-          <div className="d-flex flex-column">
+        <div className="d-flex flex-column">
           <SearchStatus length={count} />
-            {count > 0 && (
-              
+            {count > 0 && (              
                 <table className="table">
                     <thead>
                         <tr>
@@ -87,7 +75,7 @@ const Users = ({ users, ...rest }) => {
                 </table>
                
             )}
-             <div className="d-flex justify-content-center">
+            <div className="d-flex justify-content-center">
             <Pagination
                 itemsCount={count}
                 pageSize={pageSize}
@@ -95,9 +83,8 @@ const Users = ({ users, ...rest }) => {
                 onPageChange={handlePageChange}
             />
             </div>
-             </div>
-           
-            </div>
+        </div>           
+    </div>
       
     );
 };
