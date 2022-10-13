@@ -1,5 +1,5 @@
 import { noConflict } from "lodash";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useParams } from "react";
 import Pagination from "./pagination";
 import { paginate } from "../utils/paginate";
 import PropTypes from 'prop-types';
@@ -8,8 +8,13 @@ import api from "../api";
 import SearchStatus from './searchStatus'
 import UserTable from "./usersTable";
 import _ from 'lodash'
+import NavBar from "./navBar";
+import UserPage from "./userPage";
+import { Route } from "react-router-dom";
 
-const Users = () => {
+
+
+const Users = ({history}) => {    
        
     const [currentPage, setCurrentPage] = useState(1);
     const [professions, setProfessions]=useState([])
@@ -19,7 +24,7 @@ const Users = () => {
     const pageSize = 8;
     
     const [users, setUsers] = useState([]);
-        
+       
         useEffect(()=>{
             api.users.fetchAll().then((data)=>{
                 setUsers(data)
@@ -56,6 +61,7 @@ const Users = () => {
         setCurrentPage(pageIndex);
     };
 
+    
     const handleSort=(item)=>{
         setSortBy(item)
     }
@@ -73,7 +79,9 @@ const Users = () => {
     const userCrop = paginate(sortedUsers, currentPage, pageSize);
     const clearFilter = () =>{setSelectedProf()}
 
-    return (        
+    return (  
+        <>     
+    
         <div className="d-flex">
      
         {professions&& (
@@ -108,7 +116,7 @@ const Users = () => {
             </div>
         </div>           
     </div>
-      
+    </>
     );}
     return 'loading'
 };
