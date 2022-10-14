@@ -4,7 +4,6 @@ import BookMark from './bookmark'
 import QualitiesList from './qualitiesList';
 import Table from './table';
 import { Link } from 'react-router-dom';
-import UserPage from './userPage';
 
 const UserTable = ({
     users, 
@@ -12,7 +11,6 @@ const UserTable = ({
     selectedSort, 
     onToggleBookMark, 
     onDelete,
-    onUserPage,
     ...rest}) => {
 
     const columns = {
@@ -43,8 +41,7 @@ const UserTable = ({
         </button>)}
     }
 
-    return ( 
-        
+    return (         
         <Table
             onSort={onSort} 
             selectedSort={selectedSort} 

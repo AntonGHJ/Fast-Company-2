@@ -1,4 +1,3 @@
-import { noConflict } from "lodash";
 import React, { useState, useEffect, useParams } from "react";
 import Pagination from "./pagination";
 import { paginate } from "../utils/paginate";
@@ -8,11 +7,6 @@ import api from "../api";
 import SearchStatus from './searchStatus'
 import UserTable from "./usersTable";
 import _ from 'lodash'
-import NavBar from "./navBar";
-import UserPage from "./userPage";
-import { Route } from "react-router-dom";
-
-
 
 const Users = ({history}) => {    
        
@@ -80,10 +74,8 @@ const Users = ({history}) => {
     const clearFilter = () =>{setSelectedProf()}
 
     return (  
-        <>     
-    
-        <div className="d-flex">
-     
+        <>      
+    <div className="d-flex">     
         {professions&& (
         <div className="d-flex flex-column flex-shrink-0 p-3">   
             <GroupList 
@@ -103,8 +95,7 @@ const Users = ({history}) => {
                 onToggleBookMark={handleToggleBookMark}
                 onSort={handleSort}
                 selectedSort={sortBy}
-                />
-               
+                />               
             )}
             <div className="d-flex justify-content-center">
             <Pagination
