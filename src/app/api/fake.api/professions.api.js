@@ -1,5 +1,3 @@
-import { noConflict } from "lodash";
-
 export const professionsObject = {
     doctor: { _id: "67rdca3eeb7f6fgeed471818", name: "Доктор" },
     waiter: { _id: "67rdca3eeb7f6fgeed471820", name: "Официант" },
@@ -19,7 +17,7 @@ export const professions = [
 const fetchAll = () =>
     new Promise((resolve) => {
         window.setTimeout(function () {
-            resolve(professions);
+            resolve(professionsObject);
         }, 2000);
     });
 
