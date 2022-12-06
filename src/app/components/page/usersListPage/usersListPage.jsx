@@ -7,30 +7,29 @@ import GroupList from "../../common/groupList";
 import SearchStatus from "../../ui/searchStatus";
 import UserTable from "../../ui/usersTable";
 import _ from "lodash";
-
+import { useUser } from "../../../hooks/useUsers";
 const UsersListPage = () => {
+    const { users } = useUser();
     const [currentPage, setCurrentPage] = useState(1);
     const [professions, setProfession] = useState();
+    const [searchQuery, setSearchQuery] = useState("");
     const [selectedProf, setSelectedProf] = useState();
     const [sortBy, setSortBy] = useState({ path: "name", order: "asc" });
-    const [searchBar, setSearchBar] = useState();
     const pageSize = 8;
 
-    const [users, setUsers] = useState();
-    useEffect(() => {
-        api.users.fetchAll().then((data) => setUsers(data));
-    }, []);
     const handleDelete = (userId) => {
-        setUsers(users.filter((user) => user._id !== userId));
+        // setUsers(users.filter((user) => user._id !== userId));
+        console.log(userId);
     };
     const handleToggleBookMark = (id) => {
         const newArray = users.map((user) => {
             if (user._id === id) {
-                return { ...user, bookmark: !user.bookmark }
+                return { ...user, bookmark: !user.bookmark };
             }
-            return user
-        })
-        setUsers(newArray)
+            return user;
+        });
+        // setUsers(newArray);
+        console.log(newArray);
     };
 
     useEffect(() => {
@@ -39,32 +38,33 @@ const UsersListPage = () => {
 
     useEffect(() => {
         setCurrentPage(1);
-    }, [selectedProf, searchBar]);
+    }, [selectedProf, searchQuery]);
 
     const handleProfessionSelect = (item) => {
-        if (searchBar !== '') setSearchBar('')
-        setSelectedProf(item)
+        if (searchQuery !== "") setSearchQuery("");
+        setSelectedProf(item);
+    };
+    const handleSearchQuery = ({ target }) => {
+        setSelectedProf(undefined);
+        setSearchQuery(target.value);
     };
 
     const handlePageChange = (pageIndex) => {
         setCurrentPage(pageIndex);
     };
-    const handleSearchBar = ({ target }) => {
-        setSelectedProf(null);
-        setSearchBar(target.value);
-      };
-
     const handleSort = (item) => {
         setSortBy(item);
     };
 
     if (users) {
-        const filteredUsers = searchBar ? users.filter (
-            (user) =>
-              user.name.toLowerCase().indexOf(searchBar.toLowerCase()) >= 0
-          )
-          :        
-        selectedProf
+        const filteredUsers = searchQuery
+            ? users.filter(
+                  (user) =>
+                      user.name
+                          .toLowerCase()
+                          .indexOf(searchQuery.toLowerCase()) !== -1
+              )
+            : selectedProf
             ? users.filter(
                   (user) =>
                       JSON.stringify(user.profession) ===
@@ -103,13 +103,13 @@ const UsersListPage = () => {
                 )}
                 <div className="d-flex flex-column">
                     <SearchStatus length={count} />
-            <input
-            type="text"
-            name="searchBar"
-            placeholder="Search..."
-            onChange={handleSearchBar}
-            value={searchBar}
-          />
+                    <input
+                        type="text"
+                        name="searchQuery"
+                        placeholder="Search..."
+                        onChange={handleSearchQuery}
+                        value={searchQuery}
+                    />
                     {count > 0 && (
                         <UserTable
                             users={usersCrop}

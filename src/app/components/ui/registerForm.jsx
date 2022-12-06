@@ -141,8 +141,8 @@ const RegisterForm = () => {
                 error={errors.password}
             />
             <SelectField
-                label="Выберите свою профессию"
-                defaultOption="Выбрать..."
+                label="Выбери свою профессию"
+                defaultOption="Choose..."
                 options={professions}
                 name="profession"
                 onChange={handleChange}
@@ -151,8 +151,9 @@ const RegisterForm = () => {
             />
             <RadioField
                 options={[
-                    { name: "Мужской", value: "male" },
-                    { name: "Женский", value: "female" },
+                    { name: "Male", value: "male" },
+                    { name: "Female", value: "female" },
+                    { name: "Other", value: "other" }
                 ]}
                 value={data.sex}
                 name="sex"
@@ -172,14 +173,14 @@ const RegisterForm = () => {
                 name="licence"
                 error={errors.licence}
             >
-                Принимаю лицензионое соглашение
+                Подтвердить <a>лицензионное соглашение</a>
             </CheckBoxField>
             <button
                 className="btn btn-primary w-100 mx-auto"
                 type="submit"
                 disabled={!isValid}
             >
-                Зарегистрироваться
+                Submit
             </button>
         </form>
     );
