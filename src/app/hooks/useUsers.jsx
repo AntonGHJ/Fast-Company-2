@@ -1,3 +1,4 @@
+/*eslint-disable*/
 import React, { useContext, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import userService from "../services/user.service";
@@ -36,8 +37,11 @@ const UserProvider = ({ children }) => {
         setError(message);
         setLoading(false);
     }
+    function getUserById(userId) {
+        return users.find((u)=>u._id===userId)
+    }
     return (
-        <UserContext.Provider value={{ users }}>
+        <UserContext.Provider value={{ users, getUserById }}>
             {!isLoading ? children : "Loading..."}
         </UserContext.Provider>
     );
